@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PolicyAngel - Notification System Test</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #fff;
+            padding: 40px;
+            margin: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #D4AF37, #F4E4C1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        h2 {
+            color: #D4AF37;
+            font-size: 20px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 8px;
+            margin-bottom: 24px;
+        }
+        .status.error {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+        .checkmark {
+            font-size: 24px;
+        }
+        button {
+            background: linear-gradient(135deg, #D4AF37, #F4E4C1);
+            color: #000;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-right: 12px;
+            margin-bottom: 12px;
+            transition: transform 0.2s;
+        }
+        button:hover {
+            transform: translateY(-2px);
+        }
+        button:active {
+            transform: translateY(0);
+        }
+        .secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+        code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 14px;
+        }
+        .step {
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-left: 3px solid #D4AF37;
+            margin-bottom: 16px;
+            border-radius: 0 8px 8px 0;
+        }
+        .step-number {
+            background: #D4AF37;
+            color: #000;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin-right: 12px;
+        }
+        ul {
+            margin: 12px 0;
+            padding-left: 24px;
+        }
+        li {
+            margin: 8px 0;
+            line-height: 1.6;
+        }
+        .halo {
+            display: inline-block;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><span class="halo">👼</span> PolicyAngel Notification System</h1>
+        <p style="color: rgba(255,255,255,0.7); margin-bottom: 40px;">Smart notifications with angel halo icons are ready!</p>
+
+        <div id="status-container"></div>
+
+        <div class="card">
+            <h2>🎯 Quick Test</h2>
+            <p>Click these buttons to test the notification system:</p>
+            <button onclick="testNotifications()">Test Notifications</button>
+            <button onclick="viewStats()" class="secondary">View Stats</button>
+            <button onclick="clearAll()" class="secondary">Clear All</button>
+            <div id="test-result" style="margin-top: 16px; padding: 12px; background: rgba(0,0,0,0.3); border-radius: 8px; display: none;"></div>
+        </div>
+
+        <div class="card">
+            <h2>📍 How to See Your Notifications</h2>
+            
+            <div class="step">
+                <span class="step-number">1</span>
+                <strong>Look at the Header (Top Right)</strong>
+                <p>You should see a pulsing <span class="halo">👼</span> angel halo badge showing the notification count.</p>
+            </div>
+
+            <div class="step">
+                <span class="step-number">2</span>
+                <strong>Click the Badge</strong>
+                <p>Click the angel halo badge to open the Alerts screen with all notifications.</p>
+            </div>
+
+            <div class="step">
+                <span class="step-number">3</span>
+                <strong>Or Navigate to Alerts</strong>
+                <p>From the bottom navigation: Menu ☰ → Alerts</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>✨ What You Should See</h2>
+            <ul>
+                <li><strong>10 demo notifications</strong> pre-loaded with different priorities</li>
+                <li><strong>Angel halo icons</strong> with colors based on priority:
+                    <ul>
+                        <li>🔴 Red = Urgent</li>
+                        <li>🟠 Amber = High priority</li>
+                        <li>🟡 Gold = Medium priority</li>
+                        <li>⚪ Gray = Low priority</li>
+                    </ul>
+                </li>
+                <li><strong>Filter tabs</strong> to organize by type (All, Deadlines, Opportunities, etc.)</li>
+                <li><strong>Action buttons</strong> on each notification card</li>
+                <li><strong>Glassmorphic design</strong> matching your luxury aesthetic</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>🔧 Troubleshooting</h2>
+            <p><strong>Not seeing the badge?</strong></p>
+            <ul>
+                <li>Make sure <code>showAlerts={true}</code> in App.tsx</li>
+                <li>Hard refresh the page (Ctrl+Shift+R or Cmd+Shift+R)</li>
+                <li>Check browser console for errors</li>
+            </ul>
+            
+            <p><strong>No notifications in Alerts screen?</strong></p>
+            <ul>
+                <li>Click "Test Notifications" button above</li>
+                <li>Or run this in console: <code>localStorage.removeItem('policyangel_notifications')</code> then refresh</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>📚 Documentation</h2>
+            <p>For complete details, see:</p>
+            <ul>
+                <li><code>/✅_SMART_NOTIFICATIONS_COMPLETE.md</code> - Full implementation guide</li>
+                <li><code>/🎨_NOTIFICATION_VISUAL_GUIDE.md</code> - Design specs and examples</li>
+                <li><code>/🔔_HOW_TO_SEE_NOTIFICATIONS.md</code> - Detailed usage guide</li>
+            </ul>
+        </div>
+    </div>
+
+    <script type="module">
+        // Check notification system status
+        async function checkStatus() {
+            const statusContainer = document.getElementById('status-container');
+            
+            try {
+                // Try to import notification engine
+                const { notificationEngine } = await import('./utils/notificationEngine.ts');
+                const count = notificationEngine.getUnreadCount();
+                const total = notificationEngine.getNotifications().length;
+                
+                statusContainer.innerHTML = `
+                    <div class="status">
+                        <span class="checkmark">✅</span>
+                        <div>
+                            <strong>Notification System Active</strong>
+                            <div style="font-size: 14px; opacity: 0.8; margin-top: 4px;">
+                                ${total} total notifications, ${count} unread
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } catch (error) {
+                statusContainer.innerHTML = `
+                    <div class="status error">
+                        <span class="checkmark">⚠️</span>
+                        <div>
+                            <strong>Notification System Error</strong>
+                            <div style="font-size: 14px; opacity: 0.8; margin-top: 4px;">
+                                ${error.message}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // Test notifications
+        window.testNotifications = async function() {
+            const resultDiv = document.getElementById('test-result');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = 'Loading notification system...';
+            
+            try {
+                const { populateDemoNotifications } = await import('./utils/notificationDemo.ts');
+                await populateDemoNotifications();
+                
+                resultDiv.innerHTML = `
+                    <strong style="color: #10b981;">✓ Success!</strong><br>
+                    10 demo notifications created. Go to the Alerts screen to see them!
+                `;
+                
+                checkStatus();
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <strong style="color: #ef4444;">✗ Error:</strong><br>
+                    ${error.message}
+                `;
+            }
+        };
+
+        // View stats
+        window.viewStats = async function() {
+            const resultDiv = document.getElementById('test-result');
+            resultDiv.style.display = 'block';
+            
+            try {
+                const { notificationEngine } = await import('./utils/notificationEngine.ts');
+                const all = notificationEngine.getNotifications();
+                const unread = notificationEngine.getNotifications({ unreadOnly: true });
+                
+                const byType = {
+                    deadline: all.filter(n => n.type === 'deadline').length,
+                    opportunity: all.filter(n => n.type === 'opportunity').length,
+                    action: all.filter(n => n.type === 'action').length,
+                    achievement: all.filter(n => n.type === 'achievement').length,
+                    risk: all.filter(n => n.type === 'risk').length,
+                    update: all.filter(n => n.type === 'update').length,
+                    savings: all.filter(n => n.type === 'savings').length,
+                    tip: all.filter(n => n.type === 'tip').length,
+                };
+                
+                resultDiv.innerHTML = `
+                    <strong>Notification Statistics:</strong><br><br>
+                    Total: ${all.length}<br>
+                    Unread: ${unread.length}<br>
+                    Read: ${all.length - unread.length}<br><br>
+                    <strong>By Type:</strong><br>
+                    ${Object.entries(byType).map(([type, count]) => 
+                        `${type}: ${count}`
+                    ).join('<br>')}
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `<strong style="color: #ef4444;">Error:</strong> ${error.message}`;
+            }
+        };
+
+        // Clear all
+        window.clearAll = async function() {
+            const resultDiv = document.getElementById('test-result');
+            resultDiv.style.display = 'block';
+            
+            if (!confirm('Clear all notifications?')) return;
+            
+            try {
+                const { notificationEngine } = await import('./utils/notificationEngine.ts');
+                await notificationEngine.clearAll();
+                
+                resultDiv.innerHTML = `
+                    <strong style="color: #10b981;">✓ All notifications cleared!</strong>
+                `;
+                
+                checkStatus();
+            } catch (error) {
+                resultDiv.innerHTML = `<strong style="color: #ef4444;">Error:</strong> ${error.message}`;
+            }
+        };
+
+        // Check status on load
+        checkStatus();
+    </script>
+</body>
+</html>
